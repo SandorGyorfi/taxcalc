@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Tax and Take-Home Pay Calculator</title>
+</head>
+<body>
+    <header>
+        <h1>UK Tax and Take-Home Pay Calculator</h1>
+    </header>
+    <main>
+        <section class="calculator">
+            <form id="taxCalcForm">
+                <div class="form-group">
+                    <label for="annualSalary">Annual Salary (£):</label>
+                    <input type="number" id="annualSalary" name="annualSalary" required>
+                </div>
+                <button type="submit">Calculate</button>
+            </form>
+        </section>
+        <section class="results">
+            <h2>Calculation Results</h2>
+            <p id="takeHomePay">Take-Home Pay: £0.00</p>
+            <p id="totalTaxPaid">Total Tax Paid: £0.00</p>
+        </section>
+    </main>
+</body>
+</html>
