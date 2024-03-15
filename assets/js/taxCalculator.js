@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
         const startDate = new Date(startDateInput.value);
         const annualSalary = parseFloat(salaryInput.value);
-        if (!isNaN(annualSalary) && startDate instanceof Date && !isNaN(startDate.getTime())) {
+        if (!isNaN(annualSalary) && startDate instanceof Date &&!isNaN(startDate.getTime())) {
             const results = calculateMonthlyResults(startDate, annualSalary);
             displayMonthlyResults(results);
         } else {
@@ -60,14 +60,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function displayMonthlyResults(results) {
-        detailedResults.innerHTML = '';
-        results.forEach(result => {
-            detailedResults.innerHTML += `<div class="monthly-result">
+        let content = '<div class="results-row">';
+        results.forEach((result, index) => {
+            content += `<div class="monthly-result">
                 <h3>${result.month}</h3>
                 <p>Take-Home: £${result.monthlyTakeHome.toFixed(2)}</p>
                 <p>Tax Paid: £${result.monthlyTax.toFixed(2)}</p>
                 <p>NI Contribution: £${result.monthlyNI.toFixed(2)}</p>
             </div>`;
+            if ((index + 1) % 3 === 0 && index + 1!== results.length) {
+                content += '</div><div class="results-row">';
+            }
         });
+        content += '</div>';
+        detailedResults.innerHTML = content;
+
+        setTimeout(() => {
+            document.querySelectorAll('.monthly-result').forEach((element) => {
+                element.classList.add('visible');
+            });
+        }, 10);
     }
+
 });

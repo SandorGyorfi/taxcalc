@@ -85,6 +85,19 @@ button, input[type="submit"] {
     transition: background-color 0.3s;
 }
 
+.form-group input[type="date"] {
+    width: 96%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #333;
+    background-color: #f4f7f6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
 button:hover, input[type="submit"]:hover {
     background-color: #025aa5;
 }
@@ -130,4 +143,30 @@ button:hover, input[type="submit"]:hover {
 
 .footer a:hover {
     text-decoration: underline;
+}
+.results-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ced4da;
+}
+
+.monthly-result {
+    flex-basis: calc(25% - 20px);
+    margin-right: 20px;
+    background-color: #fff;
+    padding: 13px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
+    margin-top: 14px;
+}
+
+.monthly-result:hover {
+    transform: translateY(-5px); 
+}
+
+.monthly-result.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
