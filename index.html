@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
-    <title>UK Tax and Take-Home Pay Calculator</title>
+    <title>UK Tax and Detailed Financial Calculator</title>
 </head>
 <body>
     <header>
-        <h1>UK Tax and Take-Home Pay Calculator</h1>
+        <h1>UK Tax and Detailed Financial Calculator</h1>
     </header>
     <main>
         <section class="calculator">
@@ -29,12 +29,14 @@
         </section>
         <section class="results">
             <h2>Calculation Results</h2>
-            <p id="takeHomePayYearly">Take-Home Pay (Yearly): £0.00</p>
-            <p id="totalTaxPaidYearly">Total Tax Paid (Yearly): £0.00</p>
-            <p id="takeHomePayMonthly" style="display:none;">Take-Home Pay (Monthly): £0.00</p>
-            <p id="totalTaxPaidMonthly" style="display:none;">Total Tax Paid (Monthly): £0.00</p>
+            <div id="detailedResults"></div>
         </section>
     </main>
+    <footer class="footer">
+        <p>Enjoyed this calculator? Support my work by buying me a coffee!
+            <a href="https://www.buymeacoffee.com/sandorgyorfi" target="_blank">Buy Me a Coffee</a>
+        </p>
+    </footer>
     <script src="assets/js/taxCalculator.js"></script>
 </body>
 </html>
