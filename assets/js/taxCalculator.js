@@ -2,17 +2,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('taxCalcForm');
     const salaryInput = document.getElementById('annualSalary');
     const resultPeriodSelect = document.getElementById('resultPeriod');
-    const takeHomePayYearly = document.getElementById('takeHomePayYearly');
-    const totalTaxPaidYearly = document.getElementById('totalTaxPaidYearly');
-    const takeHomePayMonthly = document.getElementById('takeHomePayMonthly');
-    const totalTaxPaidMonthly = document.getElementById('totalTaxPaidMonthly');
+    const detailedResults = document.getElementById('detailedResults');
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
         const annualSalary = parseFloat(salaryInput.value);
         if (!isNaN(annualSalary)) {
-            const { takeHomePay, totalTaxPaid } = calculateTax(annualSalary);
-            updateDisplay(takeHomePay, totalTaxPaid);
+            const results = calculateTax(annualSalary);
+            updateDisplay(results, resultPeriodSelect.value);
         } else {
             alert('Please enter a valid number for the annual salary.');
         }
@@ -21,47 +18,36 @@ document.addEventListener('DOMContentLoaded', function () {
     resultPeriodSelect.addEventListener('change', function () {
         const annualSalary = parseFloat(salaryInput.value);
         if (!isNaN(annualSalary)) {
-            const { takeHomePay, totalTaxPaid } = calculateTax(annualSalary);
-            updateDisplay(takeHomePay, totalTaxPaid);
+            const results = calculateTax(annualSalary);
+            updateDisplay(results, resultPeriodSelect.value);
         }
     });
 
     function calculateTax(salary) {
-        const personalAllowance = 12570; 
-        let basicRate = 0.2;
-        let higherRate = 0.4;
-        let additionalRate = 0.45;
-        let totalTaxPaid = 0;
-
-        if (salary <= personalAllowance) {
-            totalTaxPaid = 0;
-        } else if (salary <= 50270) {
-            totalTaxPaid = (salary - personalAllowance) * basicRate;
-        } else if (salary <= 150000) {
-            totalTaxPaid = (50270 - personalAllowance) * basicRate + (salary - 50270) * higherRate;
-        } else {
-            totalTaxPaid = (50270 - personalAllowance) * basicRate + (150000 - 50270) * higherRate + (salary - 150000) * additionalRate;
-        }
-
-        const takeHomePay = salary - totalTaxPaid;
-        return { takeHomePay, totalTaxPaid };
+        let takeHomePay = salary - (salary * 0.2); 
+        let niContribution = salary * 0.12; 
+        
+        return {
+            takeHomePay: takeHomePay,
+            totalTaxPaid: salary * 0.2,
+            niContribution: niContribution
+        };
     }
 
-    function updateDisplay(takeHomePay, totalTaxPaid) {
-        if (resultPeriodSelect.value === 'monthly') {
-            takeHomePayMonthly.textContent = `Take-Home Pay (Monthly): £${(takeHomePay / 12).toFixed(2)}`;
-            totalTaxPaidMonthly.textContent = `Total Tax Paid (Monthly): £${(totalTaxPaid / 12).toFixed(2)}`;
-            takeHomePayYearly.style.display = 'none';
-            totalTaxPaidYearly.style.display = 'none';
-            takeHomePayMonthly.style.display = '';
-            totalTaxPaidMonthly.style.display = '';
-        } else { 
-            takeHomePayYearly.textContent = `Take-Home Pay (Yearly): £${takeHomePay.toFixed(2)}`;
-            totalTaxPaidYearly.textContent = `Total Tax Paid (Yearly): £${totalTaxPaid.toFixed(2)}`;
-            takeHomePayYearly.style.display = '';
-            totalTaxPaidYearly.style.display = '';
-            takeHomePayMonthly.style.display = 'none';
-            totalTaxPaidMonthly.style.display = 'none';
+    function updateDisplay({ takeHomePay, totalTaxPaid, niContribution }, period) {
+        detailedResults.innerHTML = ''; 
+        if (period === 'monthly') {
+            const monthlyTakeHome = takeHomePay / 12;
+            const monthlyTax = totalTaxPaid / 12;
+            const monthlyNI = niContribution / 12;
+
+            detailedResults.innerHTML += `<p>Monthly Take-Home Pay: £${monthlyTakeHome.toFixed(2)}</p>`;
+            detailedResults.innerHTML += `<p>Monthly Tax Paid: £${monthlyTax.toFixed(2)}</p>`;
+            detailedResults.innerHTML += `<p>Monthly NI Contribution: £${monthlyNI.toFixed(2)}</p>`;
+        } else {
+            detailedResults.innerHTML += `<p>Yearly Take-Home Pay: £${takeHomePay.toFixed(2)}</p>`;
+            detailedResults.innerHTML += `<p>Yearly Tax Paid: £${totalTaxPaid.toFixed(2)}</p>`;
+            detailedResults.innerHTML += `<p>Yearly NI Contribution: £${niContribution.toFixed(2)}</p>`;
         }
     }
 });
