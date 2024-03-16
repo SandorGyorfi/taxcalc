@@ -118,20 +118,23 @@ button:hover, input[type="submit"]:hover {
 
 @media screen and (max-width: 768px) {
     .results, .monthly-result {
-        display: block; 
+        display: grid; 
+        grid-template-columns: repeat(1, 1fr); 
+        gap: 5px; 
+        text-align: center;
     }
-    
+
     .monthly-result {
-        margin-bottom: 20px; 
+        padding: 5px;
     }
 
     .calculator, .results {
         width: 100%; 
         max-width: none;
-        padding: 10px; 
+        padding: 5px; 
     }
 
     .form-group label, .form-group input, .form-group select, button, input[type="submit"] {
-        font-size: 14px; 
+        font-size: 12px; 
     }
 }
