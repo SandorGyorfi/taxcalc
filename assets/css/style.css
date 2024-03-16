@@ -4,6 +4,10 @@ body, h1, h2, p, form {
     box-sizing: border-box;
 }
 
+h3{
+    text-decoration:underline;
+}
+
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
     background-color: #fff;
@@ -114,6 +118,10 @@ button:hover, input[type="submit"]:hover {
 
 .footer a:hover {
     text-decoration: underline;
+}
+
+.annual-summary{
+    text-align: center;
 }
 
 @media screen and (max-width: 768px) {

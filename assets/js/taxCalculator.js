@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const startDateInput = document.getElementById('startDate');
     const salaryInput = document.getElementById('annualSalary');
     const detailedResults = document.getElementById('detailedResults');
+    const annualSummary = document.getElementById('annualSummary'); 
+    const selfAssessmentReminder = document.getElementById('selfAssessmentDate'); 
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -10,7 +12,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const annualSalary = parseFloat(salaryInput.value);
         if (!isNaN(annualSalary) && startDate instanceof Date && !isNaN(startDate.getTime())) {
             const results = calculateMonthlyResults(startDate, annualSalary);
+            const annualSummaryResult = results.pop(); 
+            displayAnnualSummary(annualSummaryResult);
             displayMonthlyResults(results);
+            updateSelfAssessmentReminder(startDate);
         } else {
             alert('Please enter a valid start date and annual salary.');
         }
@@ -18,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function calculateMonthlyResults(startDate, annualSalary) {
         const results = [];
+        let totalTakeHome = 0, totalTax = 0, totalNI = 0;
         let currentDate = new Date(startDate);
         for (let i = 0; i < 12; i++) {
             let month = currentDate.toLocaleString('en-us', { month: 'long' });
@@ -25,6 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
             let monthlyTax = calculateMonthlyTax(annualSalary, currentDate);
             let monthlyNI = calculateMonthlyNI(annualSalary, currentDate);
             let monthlyTakeHome = monthlySalary - monthlyTax - monthlyNI;
+            
+            totalTakeHome += monthlyTakeHome;
+            totalTax += monthlyTax;
+            totalNI += monthlyNI;
+            
             results.push({
                 month,
                 monthlyTakeHome,
@@ -33,11 +44,47 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             currentDate.setMonth(currentDate.getMonth() + 1);
         }
+        results.push({
+            month: "Annual Summary",
+            monthlyTakeHome: totalTakeHome,
+            monthlyTax: totalTax,
+            monthlyNI: totalNI
+        });
         return results;
     }
 
+    function updateSelfAssessmentReminder(startDate) {
+        let assessmentYear = startDate.getMonth() <= 0 ? startDate.getFullYear() : startDate.getFullYear() + 1;
+        selfAssessmentReminder.textContent = `Remember to submit your self-assessment tax return by January 31st, ${assessmentYear}.`;
+    }
+    
+    
+
+    function displayAnnualSummary(summary) {
+        annualSummary.innerHTML = `<h3>${summary.month}</h3>
+                                   <p>Annual Take-Home: £${summary.monthlyTakeHome.toFixed(2)}</p>
+                                   <p>Annual Tax Paid: £${summary.monthlyTax.toFixed(2)}</p>
+                                   <p>Annual NI Contributions: £${summary.monthlyNI.toFixed(2)}</p>`;
+    }
+
+    function displayMonthlyResults(results) {
+        let content = '<div class="results-row">';
+        results.forEach((result, index) => {
+            content += `<div class="monthly-result" style="--animation-delay:${index * 0.1}s">
+                <h3>${result.month}</h3>
+                <p>Take-Home: £${result.monthlyTakeHome.toFixed(2)}</p>
+                <p>Tax Paid: £${result.monthlyTax.toFixed(2)}</p>
+                <p>NI Contribution: £${result.monthlyNI.toFixed(2)}</p>
+            </div>`;
+            if ((index + 1) % 3 === 0 && index + 1 !== results.length) {
+                content += '</div><div class="results-row">';
+            }
+        });
+        content += '</div>';
+        detailedResults.innerHTML = content;
+    }
+
     function calculateMonthlyTax(annualSalary, currentDate) {
-        console.log(`Calculating tax for salary: ${annualSalary}, date: ${currentDate}`);
         let taxRate = currentDate.getMonth() >= 3 ? 0.2 : 0.2;
         let basicRateUpperLimit = 50270;
         let additionalRateStart = 150000;
@@ -55,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function calculateMonthlyNI(annualSalary, currentDate) {
-        console.log(`Calculating NI for salary: ${annualSalary}, date: ${currentDate}`);
         let monthlySalary = annualSalary / 12;
         if (monthlySalary <= 797) {
             return 0;
@@ -65,30 +111,4 @@ document.addEventListener('DOMContentLoaded', function () {
             return ((4189 - 797) * 0.12 + (monthlySalary - 4189) * 0.02);
         }
     }
-
-    function displayMonthlyResults(results) {
-        let content = '';
-        results.forEach((result, index) => {
-            if (index % 3 === 0) {
-                if (index !== 0) { 
-                    content += '</div>';
-                }
-                content += '<div class="results-row">'; 
-            }
-    
-            content += `<div class="monthly-result" style="--animation-delay:${index * 0.1}s">
-                <h3>${result.month}</h3>
-                <p>Take-Home: £${result.monthlyTakeHome.toFixed(2)}</p>
-                <p>Tax Paid: £${result.monthlyTax.toFixed(2)}</p>
-                <p>NI Contribution: £${result.monthlyNI.toFixed(2)}</p>
-            </div>`;
-    
-            if (index === results.length - 1) {
-                content += '</div>';
-            }
-        });
-    
-        detailedResults.innerHTML = content;
-    }
-    
 });
