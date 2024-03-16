@@ -4,8 +4,8 @@ body, h1, h2, p, form {
     box-sizing: border-box;
 }
 
-h3{
-    text-decoration:underline;
+h3 {
+    text-decoration: underline;
 }
 
 body {
@@ -15,6 +15,11 @@ body {
     padding: 20px;
     line-height: 1.6;
 }
+.ptc{
+    font-size: 12px;
+    text-align: center;
+    padding: 5px;
+}
 
 header {
     margin-bottom: 2em;
@@ -22,7 +27,7 @@ header {
 }
 
 h1 {
-    color: #0055a5; 
+    color: #0055a5;
     text-align: center;
     margin-bottom: 1em;
     font-size: 2rem;
@@ -30,10 +35,10 @@ h1 {
 }
 
 .calculator {
-    background-color: #f8f9fa; 
+    background-color: #f8f9fa;
     padding: 20px;
     margin: 0 auto;
-    border: 1px solid #ced4da; 
+    border: 1px solid #ced4da;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
@@ -51,13 +56,25 @@ h1 {
     font-weight: bold;
 }
 
-.form-group input[type="number"], .form-group input[type="date"], .form-group select {
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select {
     padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 4px;
     font-size: 16px;
     width: 100%;
     box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 40px; 
+}
+
+.form-group input[type="number"]:focus,
+.form-group input[type="date"]:focus,
+.form-group select:focus {
+    outline: 2px solid #0056b3; 
 }
 
 button, input[type="submit"] {
@@ -82,7 +99,7 @@ button:hover, input[type="submit"]:hover {
     display: table;
     border-collapse: collapse;
     width: 100%;
-    table-layout: fixed; 
+    table-layout: fixed;
 }
 
 .results-row {
@@ -94,7 +111,7 @@ button:hover, input[type="submit"]:hover {
     padding: 10px;
     border: 1px solid #ced4da;
     text-align: left;
-    word-wrap: break-word; 
+    word-wrap: break-word;
 }
 
 .monthly-result h3, .monthly-result p {
@@ -120,15 +137,15 @@ button:hover, input[type="submit"]:hover {
     text-decoration: underline;
 }
 
-.annual-summary{
+.annual-summary {
     text-align: center;
 }
 
 @media screen and (max-width: 768px) {
     .results, .monthly-result {
-        display: grid; 
-        grid-template-columns: repeat(1, 1fr); 
-        gap: 5px; 
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 5px;
         text-align: center;
     }
 
@@ -137,12 +154,12 @@ button:hover, input[type="submit"]:hover {
     }
 
     .calculator, .results {
-        width: 100%; 
+        width: 100%;
         max-width: none;
-        padding: 5px; 
+        padding: 5px;
     }
 
     .form-group label, .form-group input, .form-group select, button, input[type="submit"] {
-        font-size: 12px; 
+        font-size: 12px;
     }
 }

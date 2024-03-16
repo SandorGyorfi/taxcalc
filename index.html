@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
     <title>UK Tax and Detailed Financial Calculator</title>
 </head>
+
 <body>
     <header>
         <h1>UK Tax and Detailed Financial Calculator</h1>
@@ -21,6 +23,17 @@
                     <label for="annualSalary">Annual Salary (£):</label>
                     <input type="number" id="annualSalary" name="annualSalary" required>
                 </div>
+                <div class="form-group">
+                    <label for="taxCode">Tax Code:</label>
+                    <select id="taxCode" name="taxCode" required>
+                        <option value="1250L">1250L - Standard Personal Allowance</option>
+                        <option value="BR">BR - Basic Rate 20%</option>
+                        <option value="D0">D0 - Higher Rate 40%</option>
+                        <option value="D1">D1 - Additional Rate 45%</option>
+                    </select>
+                    <p class="ptc" id="taxCodeExplanation"></p>
+                </div>
+
                 <button type="submit">Calculate</button>
             </form>
         </section>
@@ -44,5 +57,8 @@
         </p>
     </footer>
     <script src="assets/js/taxCalculator.js"></script>
+    <script src="assets/js/taxCodeExplanations.js"></script>
+
 </body>
+
 </html>
