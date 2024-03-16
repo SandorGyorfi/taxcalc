@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
         const startDate = new Date(startDateInput.value);
         const annualSalary = parseFloat(salaryInput.value);
-        if (!isNaN(annualSalary) && startDate instanceof Date &&!isNaN(startDate.getTime())) {
+        if (!isNaN(annualSalary) && startDate instanceof Date && !isNaN(startDate.getTime())) {
             const results = calculateMonthlyResults(startDate, annualSalary);
             displayMonthlyResults(results);
         } else {
@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let i = 0; i < 12; i++) {
             let month = currentDate.toLocaleString('en-us', { month: 'long' });
             let monthlySalary = annualSalary / 12;
-            let monthlyTax = calculateMonthlyTax(annualSalary);
-            let monthlyNI = calculateMonthlyNI(annualSalary);
+            let monthlyTax = calculateMonthlyTax(annualSalary, currentDate);
+            let monthlyNI = calculateMonthlyNI(annualSalary, currentDate);
             let monthlyTakeHome = monthlySalary - monthlyTax - monthlyNI;
             results.push({
                 month,
@@ -36,19 +36,26 @@ document.addEventListener('DOMContentLoaded', function () {
         return results;
     }
 
-    function calculateMonthlyTax(annualSalary) {
-        if (annualSalary <= 12570) {
+    function calculateMonthlyTax(annualSalary, currentDate) {
+        console.log(`Calculating tax for salary: ${annualSalary}, date: ${currentDate}`);
+        let taxRate = currentDate.getMonth() >= 3 ? 0.2 : 0.2;
+        let basicRateUpperLimit = 50270;
+        let additionalRateStart = 150000;
+        let taxFreeAllowance = 12570;
+
+        if (annualSalary <= taxFreeAllowance) {
             return 0;
-        } else if (annualSalary <= 50270) {
-            return ((annualSalary - 12570) * 0.2) / 12;
-        } else if (annualSalary <= 150000) {
-            return (((50270 - 12570) * 0.2 + (annualSalary - 50270) * 0.4) / 12);
+        } else if (annualSalary <= basicRateUpperLimit) {
+            return ((annualSalary - taxFreeAllowance) * taxRate) / 12;
+        } else if (annualSalary <= additionalRateStart) {
+            return (((basicRateUpperLimit - taxFreeAllowance) * taxRate + (annualSalary - basicRateUpperLimit) * 0.4) / 12);
         } else {
-            return (((50270 - 12570) * 0.2 + (150000 - 50270) * 0.4 + (annualSalary - 150000) * 0.45) / 12);
+            return (((basicRateUpperLimit - taxFreeAllowance) * taxRate + (additionalRateStart - basicRateUpperLimit) * 0.4 + (annualSalary - additionalRateStart) * 0.45) / 12);
         }
     }
 
-    function calculateMonthlyNI(annualSalary) {
+    function calculateMonthlyNI(annualSalary, currentDate) {
+        console.log(`Calculating NI for salary: ${annualSalary}, date: ${currentDate}`);
         let monthlySalary = annualSalary / 12;
         if (monthlySalary <= 797) {
             return 0;
@@ -60,26 +67,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function displayMonthlyResults(results) {
-        let content = '<div class="results-row">';
+        let content = '';
         results.forEach((result, index) => {
-            content += `<div class="monthly-result">
+            if (index % 3 === 0) {
+                if (index !== 0) { 
+                    content += '</div>';
+                }
+                content += '<div class="results-row">'; 
+            }
+    
+            content += `<div class="monthly-result" style="--animation-delay:${index * 0.1}s">
                 <h3>${result.month}</h3>
                 <p>Take-Home: £${result.monthlyTakeHome.toFixed(2)}</p>
                 <p>Tax Paid: £${result.monthlyTax.toFixed(2)}</p>
                 <p>NI Contribution: £${result.monthlyNI.toFixed(2)}</p>
             </div>`;
-            if ((index + 1) % 3 === 0 && index + 1!== results.length) {
-                content += '</div><div class="results-row">';
+    
+            if (index === results.length - 1) {
+                content += '</div>';
             }
         });
-        content += '</div>';
+    
         detailedResults.innerHTML = content;
-
-        setTimeout(() => {
-            document.querySelectorAll('.monthly-result').forEach((element) => {
-                element.classList.add('visible');
-            });
-        }, 10);
     }
-
+    
 });

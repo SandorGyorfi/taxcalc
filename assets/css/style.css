@@ -6,7 +6,7 @@ body, h1, h2, p, form {
 
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
-    background-color: #f4f7f6;
+    background-color: #fff;
     color: #333;
     padding: 20px;
     line-height: 1.6;
@@ -18,7 +18,7 @@ header {
 }
 
 h1 {
-    color: #0275d8;
+    color: #0055a5; 
     text-align: center;
     margin-bottom: 1em;
     font-size: 2rem;
@@ -26,12 +26,15 @@ h1 {
 }
 
 .calculator {
-    background-color: #ffffff;
-    max-width: 600px;
-    margin: 0 auto;
+    background-color: #f8f9fa; 
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    margin: 0 auto;
+    border: 1px solid #ced4da; 
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
 }
 
 .form-group {
@@ -44,129 +47,91 @@ h1 {
     font-weight: bold;
 }
 
-.form-group input[type="number"] {
-    width: 96%;
+.form-group input[type="number"], .form-group input[type="date"], .form-group select {
+    padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 4px;
-    outline: none;
     font-size: 16px;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    color: #333;
-    background-color: #f4f7f6;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    margin-top: 20px;
-    padding: 10px;
-}
-
-.form-group select {
     width: 100%;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    outline: none;
-    font-size: 16px;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    color: #333;
-    background-color: #f4f7f6;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    margin-top: 20px;
-    padding: 10px;
+    box-sizing: border-box;
 }
 
 button, input[type="submit"] {
-    background-color: #0275d8;
+    background-color: #007bff;
     color: white;
-    padding: 12px 20px;
+    padding: 10px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    display: block;
+    width: 100%;
 }
-
-.form-group input[type="date"] {
-    width: 96%;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 16px;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    color: #333;
-    background-color: #f4f7f6;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 
 button:hover, input[type="submit"]:hover {
-    background-color: #025aa5;
+    background-color: #0056b3;
 }
 
 .results {
-    margin-top: 20px;
-    background-color: #eff2f1;
-    padding: 20px;
-    max-width: 600px;
     margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    max-width: 600px;
+    display: table;
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed; 
 }
 
-.results h2 {
-    margin-bottom: 15px;
+.results-row {
+    display: table-row;
 }
 
-.results p {
-    font-size: 16px;
-    line-height: 1.6;
+.monthly-result {
+    display: table-cell;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    text-align: left;
+    word-wrap: break-word; 
 }
 
-.footer {
+.monthly-result h3, .monthly-result p {
+    margin: 5px 0;
+}
+
+.self-assessment, .footer {
     text-align: center;
-    padding: 20px 10px;
     margin-top: 40px;
-    background-color: #ffffff;
-    color: #333;
-    border-top: 2px solid #ced4da;
+    padding: 20px;
 }
 
-.footer p {
-    margin: 0;
+.footer p, .footer a, .self-assessment p {
     font-size: 16px;
 }
 
 .footer a {
-    color: #0275d8;
+    color: #007bff;
     text-decoration: none;
-    font-weight: bold;
 }
 
 .footer a:hover {
     text-decoration: underline;
 }
-.results-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ced4da;
-}
 
-.monthly-result {
-    flex-basis: calc(25% - 20px);
-    margin-right: 20px;
-    background-color: #fff;
-    padding: 13px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
-    margin-top: 14px;
-}
+@media screen and (max-width: 768px) {
+    .results, .monthly-result {
+        display: block; 
+    }
+    
+    .monthly-result {
+        margin-bottom: 20px; 
+    }
 
-.monthly-result:hover {
-    transform: translateY(-5px); 
-}
+    .calculator, .results {
+        width: 100%; 
+        max-width: none;
+        padding: 10px; 
+    }
 
-.monthly-result.visible {
-    opacity: 1;
-    transform: translateY(0);
+    .form-group label, .form-group input, .form-group select, button, input[type="submit"] {
+        font-size: 14px; 
+    }
 }
